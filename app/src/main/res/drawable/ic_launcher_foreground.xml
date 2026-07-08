@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Satellite body (tilted diamond, large) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M38,26 L48,36 L38,46 L28,36 Z" />
+
+    <!-- Satellite left solar panel (thick) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M16,30 L27,30 L27,42 L16,42 Z" />
+
+    <!-- Satellite right solar panel (thick) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M49,30 L60,30 L60,42 L49,42 Z" />
+
+    <!-- Signal dot 1 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M50,50 a3,3 0 1,0 6,0 a3,3 0 1,0 -6,0" />
+
+    <!-- Signal dot 2 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M56,56 a2.5,2.5 0 1,0 5,0 a2.5,2.5 0 1,0 -5,0" />
+
+    <!-- Monitor screen (bold frame) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillType="evenOdd"
+        android:pathData="M52,62 L88,62 L88,82 L52,82 Z M56,66 L84,66 L84,78 L56,78 Z" />
+
+    <!-- Monitor stand -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M67,82 L73,82 L73,87 L67,87 Z" />
+
+    <!-- Monitor base -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M62,87 L78,87 L78,90 L62,90 Z" />
+</vector>

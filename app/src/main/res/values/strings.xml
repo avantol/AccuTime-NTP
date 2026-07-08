@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AccuTime</string>
+    <string name="btn_start">Start</string>
+    <string name="btn_stop">Stop</string>
+    <string name="status_disconnected">Bluetooth: Disconnected</string>
+    <string name="status_waiting">Bluetooth: Waiting for connection...</string>
+    <string name="status_connected">Bluetooth: Connected</string>
+    <string name="gps_no_fix">GPS: No fix</string>
+    <string name="gps_fix_2d">GPS: 2D Fix</string>
+    <string name="gps_fix_3d">GPS: 3D Fix</string>
+    <string name="label_satellites">Satellites:</string>
+    <string name="label_position">Position:</string>
+    <string name="label_utc_time">UTC Time:</string>
+    <string name="label_sentences_sent">Sentences sent:</string>
+    <string name="label_nmea_log">NMEA Log</string>
+    <string name="ntp_stopped">NTP server: stopped</string>
+    <string name="ntp_starting">NTP server: starting…</string>
+    <string name="ntp_serving">NTP server: serving</string>
+    <string name="ntp_error">NTP server: port error</string>
+    <string name="notification_channel_name">AccuTime Service</string>
+    <string name="notification_title">AccuTime active</string>
+    <string name="notification_text_waiting">Waiting for Bluetooth connection</string>
+    <string name="notification_text_connected">Sending NMEA to %1$s</string>
+</resources>

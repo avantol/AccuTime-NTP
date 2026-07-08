@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:fitsSystemWindows="true"
+    android:background="#FF000000">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- App Title -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="AccuTime v1.1"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <!-- Byline and Support Link -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="By WM8Q   "
+                android:textColor="#AAAAAA"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tvSupportLink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Instructions / Update / Support"
+                android:textColor="#64B5F6"
+                android:textSize="14sp"
+                android:clickable="true"
+                android:focusable="true" />
+        </LinearLayout>
+
+        <!-- Mode Selector -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Output mode"
+            android:textColor="#AAAAAA"
+            android:textSize="13sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="12dp">
+
+            <Button
+                android:id="@+id/btnModeBt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="4dp"
+                android:text="Bluetooth\n→ ChronoGPS"
+                android:textSize="12sp"
+                android:backgroundTint="#4CAF50" />
+
+            <Button
+                android:id="@+id/btnModeNtp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="4dp"
+                android:text="WiFi NTP\n→ hotspot"
+                android:textSize="12sp"
+                android:backgroundTint="#555555" />
+        </LinearLayout>
+
+        <!-- Start/Stop Button -->
+        <Button
+            android:id="@+id/btnToggle"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:text="START"
+            android:textSize="22sp"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#4CAF50"
+            android:textStyle="bold" />
+
+        <!-- ===== Bluetooth mode panel ===== -->
+        <LinearLayout
+            android:id="@+id/llBtPanel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Bluetooth Status -->
+            <TextView
+                android:id="@+id/tvBluetoothStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Bluetooth: Disconnected"
+                android:textColor="#F44336"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- ===== WiFi NTP mode panel ===== -->
+        <LinearLayout
+            android:id="@+id/llNtpPanel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <!-- NTP Server Status -->
+            <TextView
+                android:id="@+id/tvNtpStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="NTP server: stopped"
+                android:textColor="#F44336"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvNtpAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Point the PC at: --"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:fontFamily="monospace" />
+
+            <TextView
+                android:id="@+id/tvNtpClients"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Requests served: 0"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tvTimeSource"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Time source: waiting for GPS…"
+                android:textColor="#FF9800"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <!-- GPS Status (shared by both modes) -->
+        <TextView
+            android:id="@+id/tvGpsStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="GPS: No fix"
+            android:textColor="#F44336"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginVertical="12dp"
+            android:background="#444444" />
+
+        <!-- Satellites -->
+        <TextView
+            android:id="@+id/tvSatellites"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Satellites: 0 in use / 0 in view"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp" />
+
+        <!-- Position -->
+        <TextView
+            android:id="@+id/tvPosition"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Position: --"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp" />
+
+        <!-- UTC Time -->
+        <TextView
+            android:id="@+id/tvUtcTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="UTC Time: --"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:fontFamily="monospace" />
+
+        <!-- Sentence Counter (Bluetooth mode) -->
+        <TextView
+            android:id="@+id/tvSentenceCount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Sentences sent: 0"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp" />
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginVertical="12dp"
+            android:background="#444444" />
+
+        <!-- NMEA Log Label -->
+        <TextView
+            android:id="@+id/tvNmeaLogLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="NMEA Log"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <!-- NMEA Log -->
+        <ScrollView
+            android:id="@+id/svNmeaLog"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginTop="8dp"
+            android:background="#1A1A1A"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/tvNmeaLog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="monospace"
+                android:textSize="11sp"
+                android:textColor="#00FF00" />
+        </ScrollView>
+
+        <!-- Exit Button -->
+        <Button
+            android:id="@+id/btnExit"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="end"
+            android:text="Exit"
+            android:textSize="13sp"
+            android:textColor="#AAAAAA"
+            android:backgroundTint="#333333" />
+
+    </LinearLayout>
+</ScrollView>

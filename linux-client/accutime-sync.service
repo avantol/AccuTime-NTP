@@ -1,0 +1,17 @@
+[Unit]
+Description=Set system clock from AccuTime phone GPS over WiFi hotspot (NTP)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+# Keeps the clock disciplined while connected to the phone's hotspot.
+# Edit the phone IP if it isn't the default hotspot gateway (192.168.43.1).
+Type=simple
+ExecStart=/usr/bin/python /usr/local/bin/accutime-sync.py 192.168.43.1 --loop --interval 300 --hwclock
+Restart=on-failure
+RestartSec=30
+# systemd 229 (Ubuntu 16.04 / Linux Lite 3.4) accepts these names.
+StartLimitInterval=0
+
+[Install]
+WantedBy=multi-user.target
