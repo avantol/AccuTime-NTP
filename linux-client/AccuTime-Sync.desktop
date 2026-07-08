@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=AccuTime Sync
+Comment=Set the PC clock from the phone's GPS over its WiFi hotspot
+# EDIT this path to wherever you put launch-accutime.sh on this PC:
+Exec=/home/john/accutime/launch-accutime.sh
+Icon=appointment-soon
+Terminal=true
+Categories=Utility;
