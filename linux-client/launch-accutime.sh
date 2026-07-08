@@ -7,6 +7,10 @@
 #   ./launch-accutime.sh --loop --interval 60
 # With no args it auto-detects the phone (the hotspot gateway).
 
+# Pause only when running interactively (a terminal). Prevents hanging if this
+# is ever run headless (e.g. the no-terminal fallback in run-accutime-gui.sh).
+pause() { [ -t 0 ] && read -r -p "Press Enter to close."; }
+
 # Directory this script lives in (works no matter where it's launched from).
 DIR="$(cd "$(dirname "$(readlink -f "$0")")" && pwd)"
 
@@ -14,7 +18,7 @@ DIR="$(cd "$(dirname "$(readlink -f "$0")")" && pwd)"
 PY="$(command -v python3 || command -v python)"
 if [ -z "$PY" ]; then
     echo "ERROR: no python found on this PC."
-    read -r -p "Press Enter to close."
+    pause
     exit 1
 fi
 
@@ -28,4 +32,4 @@ if [ "$STATUS" -eq 0 ]; then
 else
     echo "Sync failed (exit $STATUS). Check the phone hotspot + app, then retry."
 fi
-read -r -p "Press Enter to close."
+pause
