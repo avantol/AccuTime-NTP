@@ -37,6 +37,35 @@ DEFAULT_HOST = "192.168.43.1"
 DEFAULT_PORT = 10123
 
 
+def detect_gateway():
+    """
+    Return the default-route gateway IPv4, or None. On a phone's hotspot the PC's
+    default gateway IS the phone, so this finds the server with no configuration —
+    handy for field/mountaintop use. Reads /proc/net/route directly (stdlib only).
+    """
+    try:
+        best = None  # (metric, ip)
+        with open("/proc/net/route") as f:
+            f.readline()  # skip header
+            for line in f:
+                parts = line.split()
+                if len(parts) < 11:
+                    continue
+                dest, gw, flags, metric = parts[1], parts[2], parts[3], parts[6]
+                if dest != "00000000":          # 0.0.0.0 == default route
+                    continue
+                flags_i = int(flags, 16)
+                if not (flags_i & 0x1) or not (flags_i & 0x2):   # RTF_UP | RTF_GATEWAY
+                    continue
+                ip = socket.inet_ntoa(struct.pack("<L", int(gw, 16)))
+                m = int(metric)
+                if best is None or m < best[0]:
+                    best = (m, ip)
+        return best[1] if best else None
+    except Exception:
+        return None
+
+
 def ntp_to_unix(sec, frac):
     """Convert a 64-bit NTP timestamp (two 32-bit words) to Unix seconds (float)."""
     return (sec - NTP_UNIX_OFFSET) + float(frac) / 2 ** 32
@@ -159,8 +188,9 @@ def sync_once(args):
 def main():
     parser = argparse.ArgumentParser(
         description="Set this PC's clock from the AccuTime phone SNTP server.")
-    parser.add_argument("host", nargs="?", default=DEFAULT_HOST,
-                        help="phone hotspot IP (default %s)" % DEFAULT_HOST)
+    parser.add_argument("host", nargs="?", default="auto",
+                        help="phone IP or host:port; default 'auto' detects the "
+                             "hotspot gateway (the phone). Fallback: %s" % DEFAULT_HOST)
     parser.add_argument("-p", "--port", type=int, default=DEFAULT_PORT,
                         help="UDP port (default %d)" % DEFAULT_PORT)
     parser.add_argument("-t", "--timeout", type=float, default=5.0,
@@ -176,6 +206,25 @@ def main():
     parser.add_argument("--dry-run", action="store_true",
                         help="measure and print the offset but don't set the clock")
     args = parser.parse_args()
+
+    args.host = args.host.strip().rstrip(",")
+    if args.host.lower() in ("", "auto"):
+        # Field default: the phone is the PC's default gateway on its hotspot.
+        gw = detect_gateway()
+        if gw:
+            print("auto-detected phone at gateway %s" % gw)
+            args.host = gw
+        else:
+            print("auto-detect failed; using %s (or pass an explicit IP)"
+                  % DEFAULT_HOST, file=sys.stderr)
+            args.host = DEFAULT_HOST
+    elif args.host.count(":") == 1:
+        # Accept "host:port" pasted straight from the app. One colon only, so
+        # IPv6 is left alone (this client is IPv4-only). Embedded port wins.
+        host_part, _, port_part = args.host.partition(":")
+        if port_part.isdigit():
+            args.host = host_part
+            args.port = int(port_part)
 
     print("AccuTime sync -> %s:%d" % (args.host, args.port))
     if not args.loop:

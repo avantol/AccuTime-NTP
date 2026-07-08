@@ -335,20 +335,38 @@ class NtpServerService : Service() {
         buf[off + 3] = (value and 0xFF).toByte()
     }
 
+    /**
+     * Build the "point the PC at" string: the phone's hotspot IPv4 with the port,
+     * best guess first. Cellular/virtual interfaces are dropped because their IPs
+     * (e.g. a carrier 10.x address) aren't reachable from a hotspot client.
+     */
     private fun resolveServerAddresses(): String {
         return try {
-            val addrs = mutableListOf<String>()
+            val ranked = mutableListOf<Pair<String, Int>>()
             for (ni in Collections.list(NetworkInterface.getNetworkInterfaces())) {
                 if (!ni.isUp || ni.isLoopback) continue
+                val name = (ni.name ?: "").lowercase()
+                // Skip mobile-data / transitional / virtual interfaces.
+                if (listOf("rmnet", "pdp", "ccmni", "clat", "v4-rmnet", "dummy", "rev_")
+                        .any { name.startsWith(it) }) continue
                 for (addr in Collections.list(ni.inetAddresses)) {
-                    if (addr is Inet4Address && !addr.isLoopbackAddress) {
-                        addr.hostAddress?.let { addrs.add(it) }
-                    }
+                    if (addr !is Inet4Address || addr.isLoopbackAddress || addr.isLinkLocalAddress) continue
+                    val ip = addr.hostAddress ?: continue
+                    var score = 0
+                    // Tethering/hotspot interfaces are usually named ap*, softap, swlan,
+                    // wlan*, rndis* (USB), bt-pan, or bridge — prefer those.
+                    if (name.startsWith("ap") || name.contains("softap") || name.contains("swlan") ||
+                        name.contains("tether") || name.startsWith("wlan") || name.startsWith("rndis") ||
+                        name.contains("bt-pan") || name.startsWith("bridge")) score += 10
+                    if (ip.startsWith("192.168.")) score += 2
+                    ranked.add(ip to score)
                 }
             }
-            // Android's hotspot gateway is typically 192.168.43.1 — surface it first.
-            addrs.sortByDescending { it.startsWith("192.168.43.") }
-            if (addrs.isEmpty()) "(hotspot off?)" else addrs.joinToString(", ")
+            if (ranked.isEmpty()) return "(hotspot off?)"
+            ranked.sortByDescending { it.second }
+            val ips = ranked.map { it.first }
+            val primary = "${ips.first()}:$NTP_PORT"
+            if (ips.size > 1) "$primary   (or ${ips.drop(1).joinToString(", ")})" else primary
         } catch (e: Exception) {
             Log.w(TAG, "Could not enumerate interfaces", e)
             "?"

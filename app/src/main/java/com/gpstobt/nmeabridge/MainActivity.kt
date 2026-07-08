@@ -273,7 +273,8 @@ class MainActivity : AppCompatActivity() {
 
         val addr = intent.getStringExtra(NtpServerService.EXTRA_SERVER_ADDR) ?: ""
         if (addr.isNotEmpty()) {
-            tvNtpAddress.text = "Point the PC at: $addr:${NtpServerService.NTP_PORT}"
+            // addr already includes the port (and any alternates).
+            tvNtpAddress.text = "Point the PC at: $addr"
         }
 
         val served = intent.getLongExtra(NtpServerService.EXTRA_REQUESTS_SERVED, 0)

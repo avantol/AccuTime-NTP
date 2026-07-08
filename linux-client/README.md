@@ -26,18 +26,24 @@ port 10123 iburst`.)
 ## Usage
 
 ```sh
-sudo python accutime-sync.py                    # one-shot, default 192.168.43.1:10123
-sudo python accutime-sync.py 192.168.43.1       # explicit phone IP
+sudo python accutime-sync.py                    # zero-config: auto-detects the phone
+sudo python accutime-sync.py 10.254.59.85       # explicit phone IP
+sudo python accutime-sync.py 10.254.59.85:10123 # host:port pasted from the app
      python accutime-sync.py --dry-run          # measure offset, don't set clock (no root)
 sudo python accutime-sync.py --loop --interval 60   # keep the clock disciplined
 sudo python accutime-sync.py --hwclock          # also write the hardware RTC (UTC)
 ```
 
+**Auto-detect (default):** with no host argument (or `auto`), the client uses the
+PC's **default gateway** as the phone address. On the phone's hotspot the gateway
+*is* the phone, so there's nothing to look up or type — ideal for field use. Pass
+an explicit IP only if you're on a more complex network with another gateway.
+
 Setting the clock requires **root** (or `CAP_SYS_TIME`); `--dry-run` does not.
 
 | Option | Default | Meaning |
 |--------|---------|---------|
-| `host` (positional) | `192.168.43.1` | Phone hotspot IP (shown in the app) |
+| `host` (positional) | `auto` | Phone IP or `host:port`; `auto` = detect the hotspot gateway |
 | `-p, --port N`   | `10123` | UDP port the app serves on |
 | `-t, --timeout N`| `5`     | Socket timeout, seconds |
 | `--loop`         | off     | Re-sync forever instead of once |

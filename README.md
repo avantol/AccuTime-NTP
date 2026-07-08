@@ -19,9 +19,10 @@ This is a detached fork of the AccuTime NMEA Bridge project; see
 - Phone: open **AccuTime**, tap **WiFi NTP → hotspot**, turn on your phone's WiFi
   hotspot, press **START**. The app shows the address to point the PC at
   (usually `192.168.43.1:10123`) and the GPS time source once it has a fix.
-- PC: connect to the phone's hotspot, then run the bundled client:
+- PC: connect to the phone's hotspot, then run the bundled client — no IP needed,
+  it auto-detects the phone (your default gateway):
   ```sh
-  sudo python accutime-sync.py 192.168.43.1
+  sudo python accutime-sync.py
   ```
   The client and its boot-time service live in [linux-client/](linux-client/) and
   need **nothing installed** (Python stdlib only). Expected accuracy ±2–10 ms.

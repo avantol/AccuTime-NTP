@@ -65,10 +65,11 @@ included client.
 
 1. Connect the PC to the phone's hotspot WiFi.
 2. Copy `linux-client/accutime-sync.py` to the PC (one file, USB stick is fine).
-3. Run it as root:
+3. Run it as root — no IP needed, it auto-detects the phone (your default gateway):
    ```sh
-   sudo python accutime-sync.py 192.168.43.1
+   sudo python accutime-sync.py
    ```
+   Or pass the address the app shows (e.g. `sudo python accutime-sync.py 10.254.59.85:10123`).
    See [linux-client/README.md](linux-client/README.md) for `--loop`, `--hwclock`,
    the boot-time systemd service, and troubleshooting.
 

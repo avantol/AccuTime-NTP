@@ -5,9 +5,9 @@ Wants=network-online.target
 
 [Service]
 # Keeps the clock disciplined while connected to the phone's hotspot.
-# Edit the phone IP if it isn't the default hotspot gateway (192.168.43.1).
+# 'auto' detects the phone as the default gateway — no IP to edit for field use.
 Type=simple
-ExecStart=/usr/bin/python /usr/local/bin/accutime-sync.py 192.168.43.1 --loop --interval 300 --hwclock
+ExecStart=/usr/bin/python /usr/local/bin/accutime-sync.py auto --loop --interval 300 --hwclock
 Restart=on-failure
 RestartSec=30
 # systemd 229 (Ubuntu 16.04 / Linux Lite 3.4) accepts these names.
