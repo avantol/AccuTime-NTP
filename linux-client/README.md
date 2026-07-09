@@ -77,6 +77,32 @@ sudo systemctl enable --now accutime-sync.service
 Because the phone is your time source, stop the system NTP daemon from fighting
 it: `sudo timedatectl set-ntp false` (harmless offline, but explicit).
 
+## Desktop icon on XFCE / Linux Lite (field-tested gotchas)
+
+Getting a working double-click launcher on old XFCE (Linux Lite 3.4) took some
+fighting. Use `AccuTime-Sync.desktop` as the template and mind these:
+
+1. **Edit the two machine-specific lines:** set `Exec=`'s path to where
+   `launch-accutime.sh` actually lives on that PC (put `accutime-sync.py` in the
+   **same folder** — the launcher looks for it next to itself).
+2. **`Terminal=false` is mandatory here.** The `Exec` line opens the terminal
+   itself (`x-terminal-emulator -e ...`). If you set `Terminal=true`, XFCE also
+   tries to open one and the icon **silently does nothing**.
+3. **Use `x-terminal-emulator`, not `xfce4-terminal`.** The latter isn't always
+   installed; `x-terminal-emulator` is the standard alias to whatever terminal
+   the machine has.
+4. **Executable bit:** files copied off a FAT/USB stick often lose it, and the
+   GUI "Allow this file to run" tick doesn't always set it. From a terminal:
+   `chmod +x ~/Desktop/"AccuTime Sync.desktop"`.
+5. **Trust:** right-click the icon → Properties → Permissions → tick "Allow this
+   file to run as a program". If a double-click opens the file in a text editor,
+   it's untrusted/non-executable (see 4).
+
+If you'd rather not hand-edit terminal args, point `Exec=` at
+`run-accutime-gui.sh` instead (still `Terminal=false`) — it auto-detects an
+installed terminal (xfce4-terminal, xterm, lxterminal, …) and runs the sync
+inside it.
+
 ## Accuracy
 
 WiFi UDP round-trip is typically a few milliseconds, and the NTP offset math

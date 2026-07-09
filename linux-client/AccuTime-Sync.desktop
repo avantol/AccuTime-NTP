@@ -1,11 +1,13 @@
 [Desktop Entry]
+Version=1.0
 Type=Application
 Name=AccuTime Sync
 Comment=Set the PC clock from the phone's GPS over its WiFi hotspot
-# EDIT this path to wherever you put run-accutime-gui.sh on this PC:
-Exec=/home/john/accutime/run-accutime-gui.sh
-Icon=appointment-soon
-# false: run-accutime-gui.sh opens its own terminal, so this does NOT depend on
-# XFCE having a default TerminalEmulator configured (the Linux Lite gotcha).
+# EDIT this path to wherever launch-accutime.sh lives on this PC:
+Exec=x-terminal-emulator -e bash /home/USER/gps-clock/launch-accutime.sh
+Icon=time-admin
+# MUST be false: the Exec line opens the terminal itself. With Terminal=true,
+# XFCE also tries to open one and the launcher silently does nothing.
 Terminal=false
+StartupNotify=false
 Categories=Utility;
