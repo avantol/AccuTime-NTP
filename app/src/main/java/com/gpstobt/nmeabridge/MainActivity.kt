@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvNmeaLog: TextView
     private lateinit var svNmeaLog: ScrollView
 
-    private var mode = MODE_BT
+    private var mode = MODE_NTP
     private var serviceRunning = false
     private val nmeaLogLines = mutableListOf<String>()
     private val maxLogLines = 50
@@ -91,7 +91,7 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<TextView>(R.id.tvSupportLink).setOnClickListener {
             startActivity(Intent(Intent.ACTION_VIEW,
-                Uri.parse("https://github.com/avantol/AccuTime/releases/latest")))
+                Uri.parse("https://github.com/avantol/AccuTime-NTP/releases/latest")))
         }
 
         findViewById<Button>(R.id.btnExit).setOnClickListener {
@@ -99,7 +99,7 @@ class MainActivity : AppCompatActivity() {
             finishAndRemoveTask()
         }
 
-        setMode(MODE_BT)
+        setMode(MODE_NTP)
     }
 
     override fun onResume() {
