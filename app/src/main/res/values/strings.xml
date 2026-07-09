@@ -16,7 +16,7 @@
     <string name="label_nmea_log">NMEA Log</string>
     <string name="ntp_stopped">NTP server: stopped</string>
     <string name="ntp_starting">NTP server: starting…</string>
-    <string name="ntp_serving">NTP server: serving</string>
+    <string name="ntp_serving">NTP server: serving, start wifi hotspot</string>
     <string name="ntp_error">NTP server: port error</string>
     <string name="notification_channel_name">AccuTime Service</string>
     <string name="notification_title">AccuTime active</string>

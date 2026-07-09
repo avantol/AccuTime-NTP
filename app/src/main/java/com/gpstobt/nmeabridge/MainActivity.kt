@@ -160,7 +160,7 @@ class MainActivity : AppCompatActivity() {
             }
         } else {
             Toast.makeText(this,
-                "Turn on your phone's WiFi hotspot, then connect the PC to it",
+                "Connect PC to phone using AccuTime client app.",
                 Toast.LENGTH_LONG).show()
         }
 
@@ -292,7 +292,7 @@ class MainActivity : AppCompatActivity() {
                 tvTimeSource.setTextColor(getColor(R.color.status_waiting))
             }
             else -> {
-                tvTimeSource.text = "Time source: waiting for GPS…"
+                tvTimeSource.text = "Time source: waiting for GPS, enable phone location"
                 tvTimeSource.setTextColor(getColor(R.color.status_waiting))
             }
         }

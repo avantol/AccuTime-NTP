@@ -154,7 +154,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:text="Time source: waiting for GPS…"
+                android:text="Time source: waiting for GPS, enable phone location"
                 android:textColor="#FF9800"
                 android:textSize="15sp" />
         </LinearLayout>
