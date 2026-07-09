@@ -11,8 +11,7 @@ output modes:
    with **no cable and no router**. Aimed at an offline **Linux Lite 3.4** PC,
    but works with any NTP client. See [wifi-ntp-hotspot.md](wifi-ntp-hotspot.md).
 
-This is a detached fork of the AccuTime NMEA Bridge project; see
-[feasibility-study.md](feasibility-study.md) for the full background.
+**Go to the [Accutime-NTP release page](https://github.com/avantol/AccuTime-NTP/releases/latest) for instructions and phone app download.**
 
 ## WiFi NTP mode in one minute
 
